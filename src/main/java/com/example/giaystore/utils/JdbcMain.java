@@ -7,7 +7,7 @@ public class JdbcMain {
     public static void main(String[] args) {
 
         // 1. Khởi tạo kết nối JDBC thông thường (Nếu bạn thực sự cần dùng dcm)
-        DataBaseConnectionManager dcm = new DataBaseConnectionManager("GIAYSTORE", "sa", "123");
+//        DataBaseConnectionManager dcm = new DataBaseConnectionManager("GIAYSTORE", "sa", "123");
 
         // 2. Sử dụng JPA/Hibernate để kết nối và tự động tạo bảng
         EntityManager em = null;
