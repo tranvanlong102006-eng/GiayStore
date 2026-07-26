@@ -1,0 +1,22 @@
+package com.example.giaystore.utils;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class DataBaseConnectionManager {
+
+    private final String url;
+
+    public DataBaseConnectionManager(String databaseName, String username, String password){
+
+        this.url = "jdbc:sqlserver://localhost:1433;database=" + databaseName
+        + ";user=" + username
+        + ";password=" + password
+        + ";encrypt=true;" + "trustServerCertificate=true;" + "loginTimeout=30;";
+    }
+
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(this.url);
+    }
+}
