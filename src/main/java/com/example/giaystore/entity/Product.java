@@ -42,6 +42,9 @@ public class Product {
     Set<BillProduct> billProducts = new HashSet<>();
 
 
+    private String img;
+
+
     @Column(nullable = false)
     private Integer quantity;
 

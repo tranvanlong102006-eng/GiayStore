@@ -1,10 +1,10 @@
 -- 1. BẢNG categories
 SET IDENTITY_INSERT categories ON;
-INSERT INTO categories (id, code, img, name) VALUES (1, 'CAT01', 'nike.jpg', N'Giày Sneaker');
-INSERT INTO categories (id, code, img, name) VALUES (2, 'CAT02', 'running.jpg', N'Giày Chạy Bộ');
-INSERT INTO categories (id, code, img, name) VALUES (3, 'CAT03', 'sandal.jpg', N'Sandal & Dép');
-INSERT INTO categories (id, code, img, name) VALUES (4, 'CAT04', 'boot.jpg', N'Giày Boot');
-INSERT INTO categories (id, code, img, name) VALUES (5, 'CAT05', 'da.jpg', N'Giày Tây Da');
+INSERT INTO categories (id, code, name) VALUES (1, 'CAT01', N'Giày Sneaker');
+INSERT INTO categories (id, code, name) VALUES (2, 'CAT02', N'Giày Chạy Bộ');
+INSERT INTO categories (id, code, name) VALUES (3, 'CAT03', N'Sandal & Dép');
+INSERT INTO categories (id, code, name) VALUES (4, 'CAT04', N'Giày Boot');
+INSERT INTO categories (id, code, name) VALUES (5, 'CAT05', N'Giày Tây Da');
 SET IDENTITY_INSERT categories OFF;
 
 -- 2. BẢNG brands
@@ -45,11 +45,11 @@ SET IDENTITY_INSERT users OFF;
 
 -- 6. BẢNG products
 SET IDENTITY_INSERT products ON;
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, price, quantity, node, active) VALUES (1, 1, 1, 1, 2, 1500000, 50, N'Hàng chính hãng Air Force 1', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, price, quantity, node, active) VALUES (2, 1, 2, 2, 3, 2200000, 30, N'Giày chạy bộ Pegasus', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, price, quantity, node, active) VALUES (3, 2, 1, 2, 4, 1800000, 40, N'Adidas Ultraboost', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, price, quantity, node, active) VALUES (4, 3, 2, 3, 1, 1200000, 25, N'Puma Suede Classic', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, price, quantity, node, active) VALUES (5, 4, 3, 1, 2, 950000, 60, N'Converse Chuck Taylor', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (1, 1, 1, 1, 2, 'nike.jpg', 1500000, 50, N'Hàng chính hãng Air Force 1', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (2, 1, 2, 2, 3, 'running.jpg', 2200000, 30, N'Giày chạy bộ Pegasus', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (3, 2, 1, 2, 4, 'sandal.jpg', 1800000, 40, N'Adidas Ultraboost', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (4, 3, 2, 3, 1, 'boot.jpg', 1200000, 25, N'Puma Suede Classic', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (5, 4, 3, 1, 2, 'da.jpg', 950000, 60, N'Converse Chuck Taylor', 1);
 SET IDENTITY_INSERT products OFF;
 
 -- 7. BẢNG bills
