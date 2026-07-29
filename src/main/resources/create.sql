@@ -45,11 +45,11 @@ SET IDENTITY_INSERT users OFF;
 
 -- 6. BẢNG products
 SET IDENTITY_INSERT products ON;
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (1, 1, 1, 1, 2, 'nike.jpg', 1500000, 50, N'Hàng chính hãng Air Force 1', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (2, 1, 2, 2, 3, 'running.jpg', 2200000, 30, N'Giày chạy bộ Pegasus', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (3, 2, 1, 2, 4, 'sandal.jpg', 1800000, 40, N'Adidas Ultraboost', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (4, 3, 2, 3, 1, 'boot.jpg', 1200000, 25, N'Puma Suede Classic', 1);
-INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, price, quantity, node, active) VALUES (5, 4, 3, 1, 2, 'da.jpg', 950000, 60, N'Converse Chuck Taylor', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, name, price, quantity, node, active) VALUES (1, 1, 1, 1, 2, '1.jpg', '1', 1500000, 50, N'Hàng chính hãng Air Force 1', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, name, price, quantity, node, active) VALUES (2, 1, 2, 2, 3, '2.jpg','1', 2200000, 30, N'Giày chạy bộ Pegasus', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, name, price, quantity, node, active) VALUES (3, 2, 1, 2, 4, '3.jpg','1', 1800000, 40, N'Adidas Ultraboost', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, name, price, quantity, node, active) VALUES (4, 3, 2, 3, 1, '4.jpg','1', 1200000, 25, N'Puma Suede Classic', 1);
+INSERT INTO products (id, brand_id, category_id, color_id, size_id, img, name, price, quantity, node, active) VALUES (5, 4, 3, 1, 2, '5.jpg','1', 950000, 60, N'Converse Chuck Taylor', 1);
 SET IDENTITY_INSERT products OFF;
 
 -- 7. BẢNG bills
@@ -61,11 +61,11 @@ INSERT INTO bills (id, code, createDay, user_id, total, status) VALUES (4, 'HD00
 INSERT INTO bills (id, code, createDay, user_id, total, status) VALUES (5, 'HD005', '2026-07-24', 4, 2200000, 'PAID');
 SET IDENTITY_INSERT bills OFF;
 
--- 8. BẢNG billProducts
-SET IDENTITY_INSERT billProducts ON;
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (1, 1, 1, 1, 1500000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (2, 2, 3, 2, 1800000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (3, 3, 4, 1, 1200000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (4, 4, 5, 1, 950000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (5, 5, 2, 1, 2200000);
-SET IDENTITY_INSERT billProducts OFF;
+-- -- 8. BẢNG billProducts
+-- SET IDENTITY_INSERT billProducts ON;
+-- INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (1, 1, 1, 1, 1500000);
+-- INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (2, 2, 3, 2, 1800000);
+-- INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (3, 3, 4, 1, 1200000);
+-- INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (4, 4, 5, 1, 950000);
+-- INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (5, 5, 2, 1, 2200000);
+-- SET IDENTITY_INSERT billProducts OFF;

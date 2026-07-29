@@ -44,6 +44,9 @@ public class Product {
 
     private String img;
 
+    @Column(nullable = false)
+    private String name;
+
 
     @Column(nullable = false)
     private Integer quantity;
