@@ -1,10 +1,2 @@
-package com.example.giaystore.service;
-
-import com.example.giaystore.repository.ColorRepository;
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
-public class ColorService {
-
-    private final ColorRepository colorRepository;
+package com.example.giaystore.service;public class ColorService {
 }

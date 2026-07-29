@@ -1,4 +1,2 @@
-package com.example.giaystore.repository;
-
-public class SizeRepository {
+package com.example.giaystore.repository;public class SizeRepository {
 }
