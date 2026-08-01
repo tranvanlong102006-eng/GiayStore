@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "categoryController", value = {
-        "/category/findAll",
-        "/category/add",
-        "/category/update",
-        "/category/delete"
+        "/admin/product/category",
+        "/admin/product/category/add",
+        "/admin/product/category/update",
+        "/admin/product/category/delete"
 })
 public class CategoryController extends HttpServlet {
 
@@ -30,13 +30,13 @@ public class CategoryController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/category/findAll":
+            case "/admin/product/category":
                 findAll(req, resp);
                 break;
-            case "/category/update":
+            case "/admin/product/category/update":
                 viewUpdate(req, resp);
                 break;
-            case "/category/delete":
+            case "/admin/product/category/delete":
                 delete(req, resp);
                 break;
         }
@@ -46,7 +46,7 @@ public class CategoryController extends HttpServlet {
 
         Integer id = Integer.parseInt(req.getParameter("id"));
         categoryService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/category/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=category");
     }
 
     private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -67,17 +67,23 @@ public class CategoryController extends HttpServlet {
 
         List<Category> categoryList = categoryService.findAll();
         req.setAttribute("categoryList", categoryList);
-        req.getRequestDispatcher("/admin/compontents/category-list.jsp").forward(req, resp);
+
+        // Đánh dấu cờ mở Modal Category cho trang cha Product nhận diện
+        req.setAttribute("booleanTrue", true);
+        req.setAttribute("productPage", "/admin/compontents/category-list.jsp");
+
+        // Forward về Servlet hoặc trang giao diện Product chính
+        req.getRequestDispatcher("/admin/product/add").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/category/add":
+            case "/admin/product/category/add":
                 add(req, resp);
                 break;
-            case "/category/update":
+            case "/admin/product/category/update":
                 update(req, resp);
                 break;
         }
@@ -86,15 +92,13 @@ public class CategoryController extends HttpServlet {
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Category category = showAddUpdate(req);
         categoryService.update(category);
-        resp.sendRedirect(req.getContextPath() + "/category/findAll");
-    }
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=category");    }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Category category = showAddUpdate(req);
         categoryService.add(category);
-        resp.sendRedirect(req.getContextPath() + "/category/findAll");
-    }
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=category");    }
 
     private Category showAddUpdate(HttpServletRequest req) {
 

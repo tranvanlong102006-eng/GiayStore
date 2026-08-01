@@ -14,11 +14,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @WebServlet(name = "productController", value = {
-        "/product/findAll",
-        "/product/findById",
-        "/product/add",
-        "/product/update",
-        "/product/delete"
+        "/admin/product",
+        "/admin/product/findById",
+        "/admin/product/add",
+        "/admin/product/update",
+        "/admin/product/delete"
 })
 public class ProductController extends HttpServlet {
 
@@ -41,46 +41,59 @@ public class ProductController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path) {
-            case "/product/findAll":
+            case "/admin/product":
                 findAll(req, resp);
                 break;
-            case "/product/findById":
+            case "/admin/product/findById":
                 findById(req, resp);
                 break;
-            case "/product/add":
-            case "/product/update":
+            case "/admin/product/add":
+            case "/admin/product/update":
                 viewUpdate(req, resp);
                 break;
-            case "/product/delete":
+            case "/admin/product/delete":
                 delete(req, resp);
                 break;
+
         }
     }
 
+
+
+
+
     private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        String modal = req.getParameter("modal");
         String idStr = req.getParameter("id");
 
-        if (idStr != null && !idStr.isEmpty()) {
-            Integer id = Integer.parseInt(idStr);
-            Product product = productService.findById(id);
+        // Nếu đang tương tác với Modal Category
+        if ("category".equals(modal)) {
+            req.setAttribute("pageProduct", true);
+            req.setAttribute("productPage", "/admin/compontents/category-list.jsp");
+
+            // Tìm Category theo ID và đẩy ra thuộc tính categoryUpdate
+            if (idStr != null && !idStr.isEmpty()) {
+                Integer categoryId = Integer.parseInt(idStr);
+                Category category = categoryService.findById(categoryId);
+                req.setAttribute("categoryUpdate", category);
+            }
+        }
+        // Nếu là thao tác Sửa Sản Phẩm thông thường
+        else if (idStr != null && !idStr.isEmpty()) {
+            Integer productId = Integer.parseInt(idStr);
+            Product product = productService.findById(productId);
             req.setAttribute("productUpdate", product);
         }
 
-        boolean i = true;
-        req.setAttribute("booleanTrue", i);
+        // Bật cờ mở Modal
+        req.setAttribute("booleanTrue", true);
 
-        List<Category> categoryList = categoryService.findAll();
-        req.setAttribute("categoryList", categoryList);
-
-        List<Brand> brandList = brandService.findAll();
-        req.setAttribute("brandList", brandList);
-
-        List<Color> colorList = colorService.findAll();
-        req.setAttribute("colorList", colorList);
-
-        List<Size> sizeList = sizeService.findAll();
-        req.setAttribute("sizeList", sizeList);
+        // Lấy danh sách cho các combobox
+        req.setAttribute("categoryList", categoryService.findAll());
+        req.setAttribute("brandList", brandService.findAll());
+        req.setAttribute("colorList", colorService.findAll());
+        req.setAttribute("sizeList", sizeService.findAll());
 
         findAll(req, resp);
     }
@@ -97,40 +110,78 @@ public class ProductController extends HttpServlet {
 
         Integer id = Integer.parseInt(req.getParameter("id"));
         productService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/product/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product");
     }
 
     private void findAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         List<Product> productList = productService.findAll();
         req.setAttribute("productList", productList);
-        req.getRequestDispatcher("/admin/compontents/product-list.jsp").forward(req, resp);
+
+        req.setAttribute("currentPage", "product");
+        // Gán product.jsp làm trang nội dung con được nhúng vào admin.jsp
+        req.setAttribute("contentPage", "/admin/pages/product.jsp");
+
+        // Trả về khung tổng quản trị
+        req.getRequestDispatcher("/admin/pages/admin.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path) {
-            case "/product/add":
+            case "/admin/product/add":
                 add(req, resp);
                 break;
-            case "/product/update":
+            case "/admin/product/update":
                 update(req, resp);
                 break;
         }
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Product product = showAddUpdate(req);
+
+        Integer id = Integer.parseInt(req.getParameter("id"));
+        Integer categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        Category category = categoryService.findById(categoryId);
+        Integer brandId = Integer.parseInt(req.getParameter("brandId"));
+        Brand brand = brandService.findById(brandId);
+        Integer colorId = Integer.parseInt(req.getParameter("colorId"));
+        Color color = colorService.findById(colorId);
+        Integer sizeId = Integer.parseInt(req.getParameter("sizeId"));
+        Size size = sizeService.findById(sizeId);
+        String img = req.getParameter("img");
+        String name = req.getParameter("name");
+        Integer quantity = Integer.parseInt(req.getParameter("quantity"));
+        BigDecimal price = new BigDecimal(req.getParameter("price"));
+        String node = req.getParameter("node");
+        Boolean active = Boolean.parseBoolean(req.getParameter("active"));
+        Product product = new Product(id, category, color, size, brand, img, name, quantity, price, node, active);
         productService.update(product);
-        resp.sendRedirect(req.getContextPath() + "/product/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product");
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
-        Product product = showAddUpdate(req);
+
+        Integer categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        Category category = categoryService.findById(categoryId);
+        Integer brandId = Integer.parseInt(req.getParameter("brandId"));
+        Brand brand = brandService.findById(brandId);
+        Integer colorId = Integer.parseInt(req.getParameter("colorId"));
+        Color color = colorService.findById(colorId);
+        Integer sizeId = Integer.parseInt(req.getParameter("sizeId"));
+        Size size = sizeService.findById(sizeId);
+        String img = req.getParameter("img");
+        String name = req.getParameter("name");
+        Integer quantity = Integer.parseInt(req.getParameter("quantity"));
+        BigDecimal price = new BigDecimal(req.getParameter("price"));
+        String node = req.getParameter("node");
+        Boolean active = Boolean.parseBoolean(req.getParameter("active"));
+
+        Product product = new Product(null, category, color, size, brand, img, name, quantity, price, node, active);
         productService.add(product);
-        resp.sendRedirect(req.getContextPath() + "/product/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product");
     }
 
     private Product showAddUpdate(HttpServletRequest req) {
@@ -151,7 +202,7 @@ public class ProductController extends HttpServlet {
         BigDecimal price = new BigDecimal(req.getParameter("price"));
         String node = req.getParameter("node");
         Boolean active = Boolean.parseBoolean(req.getParameter("active"));
-        return new Product(id, category, color, size, brand, null, img, name, quantity, price, node, active);
+        return new Product(id, category, color, size, brand, img, name, quantity, price, node, active);
 
     }
 }

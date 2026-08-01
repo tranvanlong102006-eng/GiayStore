@@ -58,4 +58,18 @@ public class Product {
 
     @Column(nullable = false)
     private boolean active;
+
+    public Product(Integer id, Category category, Color color, Size size, Brand brand, String img, String name, Integer quantity, BigDecimal price, String node, boolean active) {
+        this.id = id;
+        this.category = category;
+        this.color = color;
+        this.size = size;
+        this.brand = brand;
+        this.img = img;
+        this.name = name;
+        this.quantity = quantity;
+        this.price = price;
+        this.node = node;
+        this.active = active;
+    }
 }
