@@ -13,15 +13,16 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "brandController", value = {
-        "/brand/findAll",
-        "/brand/add",
-        "/brand/update",
-        "/brand/delete"
+        "/admin/product/brand",
+        "/admin/product/brand/add",
+        "/admin/product/brand/update",
+        "/admin/product/brand/delete"
 })
 public class BrandController extends HttpServlet {
 
     private BrandService brandService;
 
+    @Override
     public void init(){
         this.brandService = new BrandService(new BrandRepository());
     }
@@ -30,74 +31,83 @@ public class BrandController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/brand/findAll":
+            case "/admin/product/brand":
                 findAll(req, resp);
                 break;
-            case "/brand/update":
+            case "/admin/product/brand/update":
                 viewUpdate(req, resp);
                 break;
-            case "/brand/delete":
+            case "/admin/product/brand/delete":
                 delete(req, resp);
                 break;
         }
     }
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        brandService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/brand/findAll");
+        String idStr = req.getParameter("id");
+        if (idStr != null && !idStr.isEmpty()) {
+            Integer id = Integer.parseInt(idStr);
+            brandService.delete(id);
+        }
+        // Redirect về trang cha chứa Modal Brand
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=brand");
     }
 
     private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String idStr = req.getParameter("id");
-
         if (idStr != null && !idStr.isEmpty()){
+            Integer id = Integer.parseInt(idStr);
+            Brand brand = brandService.findById(id);
+            req.setAttribute("brandUpdate", brand);
+        }
 
-             Integer id = Integer.parseInt(idStr);
-             Brand brand = brandService.findById(id);
-             req.setAttribute("brandUpdate", brand);
+        // Nếu dùng tham số modal=brand để mở lại popup ở trang cha
+        String modal = req.getParameter("modal");
+        if ("brand".equals(modal)) {
+            // Forward tới Controller của trang Add Product để giữ nguyên Layout cha
+            req.getRequestDispatcher("/admin/product/add?modal=brand").forward(req, resp);
+            return;
         }
 
         findAll(req, resp);
     }
 
     private void findAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         List<Brand> brandList = brandService.findAll();
         req.setAttribute("brandList", brandList);
-        req.getRequestDispatcher("/admin/compontents/brand-list.jsp").forward(req, resp);
+        req.setAttribute("booleanTrue", true);
+        req.setAttribute("productPage", "/admin/compontents/brand-list.jsp");
+
+        // Forward về Servlet hoặc trang giao diện Product chính
+        req.getRequestDispatcher("/admin/product/add").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/brand/add":
+            case "/admin/product/brand/add":
                 add(req, resp);
                 break;
-            case "/brand/update":
+            case "/admin/product/brand/update":
                 update(req, resp);
                 break;
         }
-
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Brand brand = showAddUpdate(req);
         brandService.update(brand);
-        resp.sendRedirect(req.getContextPath() + "/brand/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=brand");
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Brand brand = showAddUpdate(req);
         brandService.add(brand);
-        resp.sendRedirect(req.getContextPath() + "/brand/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=brand");
     }
 
     private Brand showAddUpdate(HttpServletRequest req) {
-
         String idStr = req.getParameter("id");
         Integer id = (idStr != null && !idStr.isEmpty() ? Integer.parseInt(idStr) : null);
         String code = req.getParameter("code");

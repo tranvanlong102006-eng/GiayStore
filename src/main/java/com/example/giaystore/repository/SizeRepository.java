@@ -1,5 +1,6 @@
 package com.example.giaystore.repository;
 
+import com.example.giaystore.entity.Color;
 import com.example.giaystore.entity.Size;
 import com.example.giaystore.utils.EntityManagerUtils;
 import jakarta.persistence.EntityManager;
@@ -25,7 +26,7 @@ public class SizeRepository {
         EntityTransaction trans = em.getTransaction();
         try {
             trans.begin();
-            em.remove(id);
+            em.remove(em.find(Size.class, id));
             trans.commit();
         } catch (Exception e){
             trans.rollback();

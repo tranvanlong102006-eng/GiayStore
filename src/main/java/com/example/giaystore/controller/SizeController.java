@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "sizeController", value = {
-        "/size/findAll",
-        "/size/add",
-        "/size/update",
-        "/size/delete"
+        "/admin/product/size/findAll",
+        "/admin/product/size/add",
+        "/admin/product/size/update",
+        "/admin/product/size/delete"
 })
 public class SizeController extends HttpServlet {
 
@@ -30,13 +30,13 @@ public class SizeController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/size/findAll":
+            case "/admin/product/size/findAll":
                 findAll(req, resp);
                 break;
-            case "/size/update":
+            case "/admin/product/size/update":
                 viewUpdate(req, resp);
                 break;
-            case "/size/delete":
+            case "/admin/product/size/delete":
                 delete(req, resp);
                 break;
         }
@@ -46,10 +46,10 @@ public class SizeController extends HttpServlet {
 
         Integer id = Integer.parseInt(req.getParameter("id"));
         sizeService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/size/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=size");
     }
 
-    private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         String idStr = req.getParameter("id");
 
@@ -63,21 +63,25 @@ public class SizeController extends HttpServlet {
     }
 
 
-    private void findAll(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    private void findAll(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 
         List<Size> sizeList = sizeService.findAll();
         req.setAttribute("sizeList", sizeList);
-        resp.sendRedirect(req.getContextPath() + "/size/findAll");
+        req.setAttribute("booleanTrue", true);
+        req.setAttribute("productPage", "/admin/compontents/size-list.jsp");
+
+        // Forward về Servlet hoặc trang giao diện Product chính
+        req.getRequestDispatcher("/admin/product/add").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/size/add":
+            case "/admin/product/size/add":
                 add(req, resp);
                 break;
-            case "/size/update":
+            case "/admin/product/size/update":
                 update(req, resp);
                 break;
         }
@@ -86,14 +90,14 @@ public class SizeController extends HttpServlet {
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Size size = showAddUpdate(req);
         sizeService.update(size);
-        resp.sendRedirect(req.getContextPath() + "/size/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=size");
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Size size = showAddUpdate(req);
         sizeService.add(size);
-        resp.sendRedirect(req.getContextPath() + "/size/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=size");
     }
 
     private Size showAddUpdate(HttpServletRequest req) {

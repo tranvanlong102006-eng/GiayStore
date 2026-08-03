@@ -67,26 +67,41 @@ public class ProductController extends HttpServlet {
         String modal = req.getParameter("modal");
         String idStr = req.getParameter("id");
 
-        // Nếu đang tương tác với Modal Category
-        if ("category".equals(modal)) {
+        if (modal != null && !modal.isEmpty()) {
             req.setAttribute("pageProduct", true);
-            req.setAttribute("productPage", "/admin/compontents/category-list.jsp");
 
-            // Tìm Category theo ID và đẩy ra thuộc tính categoryUpdate
-            if (idStr != null && !idStr.isEmpty()) {
-                Integer categoryId = Integer.parseInt(idStr);
-                Category category = categoryService.findById(categoryId);
-                req.setAttribute("categoryUpdate", category);
+            switch (modal) {
+                case "category":
+                    req.setAttribute("productPage", "/admin/compontents/category-list.jsp");
+                    if (idStr != null && !idStr.isEmpty()) {
+                        req.setAttribute("categoryUpdate", categoryService.findById(Integer.parseInt(idStr)));
+                    }
+                    break;
+                case "brand":
+                    req.setAttribute("productPage", "/admin/compontents/brand-list.jsp");
+                    if (idStr != null && !idStr.isEmpty()) {
+                        req.setAttribute("brandUpdate", brandService.findById(Integer.parseInt(idStr)));
+                    }
+                    break;
+                case "color":
+                    req.setAttribute("productPage", "/admin/compontents/color-list.jsp");
+                    if (idStr != null && !idStr.isEmpty()) {
+                        req.setAttribute("colorUpdate", colorService.findById(Integer.parseInt(idStr)));
+                    }
+                    break;
+                case "size":
+                    req.setAttribute("productPage", "/admin/compontents/size-list.jsp");
+                    if (idStr != null && !idStr.isEmpty()) {
+                        req.setAttribute("sizeUpdate", sizeService.findById(Integer.parseInt(idStr)));
+                    }
+                    break;
             }
-        }
-        // Nếu là thao tác Sửa Sản Phẩm thông thường
-        else if (idStr != null && !idStr.isEmpty()) {
+        } else if (idStr != null && !idStr.isEmpty()) {
             Integer productId = Integer.parseInt(idStr);
             Product product = productService.findById(productId);
             req.setAttribute("productUpdate", product);
         }
 
-        // Bật cờ mở Modal
         req.setAttribute("booleanTrue", true);
 
         // Lấy danh sách cho các combobox

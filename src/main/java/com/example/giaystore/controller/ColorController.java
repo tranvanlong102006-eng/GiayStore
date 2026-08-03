@@ -13,10 +13,10 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet(name = "colorController", value = {
-        "/color/findAll",
-        "/color/add",
-        "/color/update",
-        "/color/delete"
+        "/admin/product/color",
+        "/admin/product/color/add",
+        "/admin/product/color/update",
+        "/admin/product/color/delete"
 })
 public class ColorController extends HttpServlet {
 
@@ -30,13 +30,13 @@ public class ColorController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/color/findAll":
+            case "/admin/product/color":
                 findAll(req, resp);
                 break;
-            case "/color/update":
+            case "/admin/product/color/update":
                 viewUpdate(req, resp);
                 break;
-            case "/color/delete":
+            case "/admin/product/color/delete":
                 delete(req, resp);
                 break;
         }
@@ -46,7 +46,7 @@ public class ColorController extends HttpServlet {
 
         Integer id = Integer.parseInt(req.getParameter("id"));
         colorService.delete(id);
-        resp.sendRedirect(req.getContextPath() + "/color/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=color");
     }
 
     private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,17 +66,21 @@ public class ColorController extends HttpServlet {
 
         List<Color> colorList = colorService.findAll();
         req.setAttribute("colorList", colorList);
-        req.getRequestDispatcher("/admin/compontents/color-list.jsp").forward(req, resp);
+        req.setAttribute("booleanTrue", true);
+        req.setAttribute("productPage", "/admin/compontents/color-list.jsp");
+
+        // Forward về Servlet hoặc trang giao diện Product chính
+        req.getRequestDispatcher("/admin/product/add").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         switch (path){
-            case "/color/add":
+            case "/admin/product/color/add":
                 add(req, resp);
                 break;
-            case "/color/update":
+            case "/admin/product/color/update":
                 update(req, resp);
                 break;
         }
@@ -85,14 +89,14 @@ public class ColorController extends HttpServlet {
     private void update(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Color color = showAddUpdate(req);
         colorService.update(color);
-        resp.sendRedirect(req.getContextPath() + "/color/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=color");
     }
 
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
         Color color = showAddUpdate(req);
         colorService.add(color);
-        resp.sendRedirect(req.getContextPath() + "/color/findAll");
+        resp.sendRedirect(req.getContextPath() + "/admin/product/add?modal=color");
     }
 
     private Color showAddUpdate(HttpServletRequest req) {

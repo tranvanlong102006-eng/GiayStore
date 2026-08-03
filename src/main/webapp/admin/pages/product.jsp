@@ -267,7 +267,7 @@
     .product-page .form-group input[type="file"],
     .product-page .form-group select,
     .product-page .form-group textarea {
-        width: 90% !important;
+        width: 90% ;
         padding: 9px 12px;
         box-sizing: border-box;
         border: 1px solid #cbd5e1;
@@ -407,7 +407,7 @@
                                     <option value="${c.id}" ${productUpdate.category.id == c.id ? 'selected' : ''}>${c.name}</option>
                                 </c:forEach>
                             </select>
-                            <a href="${pageContext.request.contextPath}/admin/product/${productUpdate != null ? 'add': 'update'}?modal=category" title="Thêm Category">
+                            <a href="${pageContext.request.contextPath}/admin/product/${productUpdate != null ? 'add': 'update'}?modal=category" title="Category">
                                 <span class="material-symbols-outlined light-large-icon">add</span>
                             </a>
                         </div>
@@ -421,7 +421,7 @@
                                     <option value="${b.id}" ${productUpdate.brand.id == b.id ? 'selected' : ''}>${b.name}</option>
                                 </c:forEach>
                             </select>
-                            <a href=""  title="Thêm Brand">
+                            <a href="${pageContext.request.contextPath}/admin/product/${productUpdate != null ? 'add': 'update'}?modal=brand" title="Brand">
                                 <span class="material-symbols-outlined light-large-icon">add</span>
                             </a></div>
                     </div>
@@ -434,7 +434,7 @@
                                     <option value="${cl.id}" ${productUpdate.color.id == cl.id ? 'selected' : ''}>${cl.name}</option>
                                 </c:forEach>
                             </select>
-                            <a href=""  title="Thêm Color">
+                            <a href="${pageContext.request.contextPath}/admin/product/${productUpdate != null ? 'add': 'update'}?modal=color" title="Color">
                                 <span class="material-symbols-outlined light-large-icon">add</span>
                             </a></div>
                     </div>
@@ -447,7 +447,7 @@
                                 <option value="${s.id}" ${productUpdate.size.id == s.id ? 'selected' : ''}>${s.name}</option>
                             </c:forEach>
                         </select>
-                            <a href="${pageContext.request.contextPath}/admin/product/category"  title="Thêm Size">
+                            <a href="${pageContext.request.contextPath}/admin/product/${productUpdate != null ? 'add': 'update'}?modal=size" title="Size">
                                 <span class="material-symbols-outlined light-large-icon">add</span>
                             </a></div>
                     </div>
