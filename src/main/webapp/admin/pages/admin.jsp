@@ -37,8 +37,8 @@
                     </a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/admin/invoice"
-                       class="${currentPage == 'invoice' ? 'active' : ''}">
+                    <a href="${pageContext.request.contextPath}/admin/bill"
+                       class="${currentPage == 'bill' ? 'active' : ''}">
                         <img src="/icon/invoice.png" alt="invoice">
                         <span>Quản lý hóa đơn</span>
                     </a>

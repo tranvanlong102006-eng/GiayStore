@@ -64,8 +64,8 @@ SET IDENTITY_INSERT bills OFF;
 -- 8. BẢNG billProducts
 SET IDENTITY_INSERT billProducts ON;
 INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (1, 1, 1, 1, 1500000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (2, 2, 3, 2, 1800000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (3, 3, 4, 1, 1200000);
-INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (4, 4, 5, 1, 950000);
+INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (2, 4, 3, 2, 1800000);
+INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (3, 2, 4, 1, 1200000);
+INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (4, 3, 5, 1, 950000);
 INSERT INTO billProducts (id, bill_id, product_id, quantity, price) VALUES (5, 5, 2, 1, 2200000);
 SET IDENTITY_INSERT billProducts OFF;

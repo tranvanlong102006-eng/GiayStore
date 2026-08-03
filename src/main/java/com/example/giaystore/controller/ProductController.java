@@ -22,6 +22,7 @@ import java.util.List;
 })
 public class ProductController extends HttpServlet {
 
+    private BillService billService;
     private ProductService productService;
     private CategoryService categoryService;
     private BrandService brandService;
@@ -30,6 +31,7 @@ public class ProductController extends HttpServlet {
 
     public void init() {
 
+        this.billService = new BillService(new BillRepository());
         this.productService = new ProductService(new ProductRepository());
         this.brandService = new BrandService(new BrandRepository());
         this.categoryService = new CategoryService(new CategoryRepository());
@@ -219,5 +221,29 @@ public class ProductController extends HttpServlet {
         Boolean active = Boolean.parseBoolean(req.getParameter("active"));
         return new Product(id, category, color, size, brand, img, name, quantity, price, node, active);
 
+    }
+
+    private void findAllBill(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Bill> billList = billService.findAll();
+        List<Product> productList = productService.findAll(); // Lấy danh sách sản phẩm
+
+        req.setAttribute("billList", billList);
+        req.setAttribute("productList", productList); // Đẩy danh sách sản phẩm sang JSP
+
+        req.getRequestDispatcher("/admin/pages/bill.jsp").forward(req, resp);
+    }
+
+
+    private void viewDetailBill(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer id = Integer.parseInt(req.getParameter("id"));
+        Bill bill = billService.findById(id);
+        List<Bill> billList = billService.findAll();
+        List<Product> productList = productService.findAll(); // Lấy danh sách sản phẩm
+
+        req.setAttribute("billDetail", bill);
+        req.setAttribute("billList", billList);
+        req.setAttribute("productList", productList); // Đẩy danh sách sản phẩm sang JSP
+
+        req.getRequestDispatcher("/admin/pages/bill.jsp").forward(req, resp);
     }
 }
